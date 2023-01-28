@@ -36,6 +36,7 @@ if __name__ == '__main__':
                 logging.info(f"{acc[i].login} - активированы промокоды {pins}")
 
             send_gifts(driver)
+            logging.info(f"{acc[i].login} - переведены подарки")
 
         driver.quit()
 

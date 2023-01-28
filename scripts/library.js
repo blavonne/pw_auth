@@ -1,3 +1,22 @@
+const allowed = {
+	byName: {
+		'Гиперион': [
+			'МусяПуся',
+			'УсяКуся',
+			'Exorcist',
+			'WeryWilka',
+			'Wendy',
+			'ChinaTown',
+			'На_травах',
+			'Stellacio',
+			'VoxPopuli',
+			'ТусяДжуся',
+			'CastleCat',
+		],
+	},
+	all: ['Гиперион'],
+}
+
 async function fetchToStr(url) {
 	let contentType = '';
 	let charset = '';
@@ -112,7 +131,7 @@ function getServers(promoItemsDoc) {
 	if (startIndex === -1)
 		return null; // найден не тот скрипт
 
-	let servers = JSON.parse(charsStr.substr(startIndex));
+	let servers = JSON.parse(charsStr.substring(startIndex));
 
 	return servers;
 }
@@ -139,5 +158,53 @@ function getAccounts(servers, serverName) {
 	return null;
 }
 
-export {fetchToStr, getPromoItemsDoc, getAccInfo};
+async function getAccount() {
+	let parser = new DOMParser();
+	let doc = await fetchToStr('https://pw.mail.ru/usercp.php');
 
+	doc = parser.parseFromString(doc, "text/html");
+
+	return doc.getElementsByName('game_account')[0].value;
+}
+
+async function activatePins(pins = []) {
+	if (pins.length === 0)
+		return;
+
+	const account = await getAccount();
+
+	if (account)
+		pins.forEach(async (pin) => {
+			await fetch(`https://pw.mail.ru/pin.php?do=activate&pin=${pin}&game_account=${account}`);
+		})
+}
+
+if (arguments[0] === 'pins') {
+    const pins = arguments[1];
+
+    await activatePins(pins);
+}
+
+async function sendGifts() {
+	let doc = await getPromoItemsDoc();
+	let acc = getAccInfo(doc, allowed ? allowed : {byId: {}, all: []});
+
+	if (acc === null)
+		return 'Подарки не переданы. Ошибка получения информации об аккаунте: неверно указан сервер или никнейм персонажа';
+	else if (acc === -1)
+		return 'Все распакованные подарки уже переданы';
+
+	let items = doc.getElementsByName('cart_items[]');
+	let res = '';
+
+	for (let i = 0; i < items.length; i++) {
+		res += '&cart_items%5B%5D=' + items[i].value;
+	}
+
+	await fetch(`https://pw.mail.ru/promo_items.php?do=process${res}&acc_info=${acc}`);
+
+	return 'Подарки переданы';
+}
+
+if (arguments[0] === 'gifts')
+    await sendGifts();
