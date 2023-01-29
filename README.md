@@ -15,5 +15,5 @@ PW auth through python + selenium, promo activation and gifts sending via java s
 
 2. this code makes auth on Perfect World (ru official) per Selenium during reading login and password from passwords.txt
 3. then it activates promos from pins.txt
-4. then it activates script to send all gifts to personages reproduced in variable allowed in pinsAndGifts.js
+4. then it activates script to send all gifts to personages reproduced in variable allowed in scripts/library.js
 5. it also creates log formatted as `^(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3})\s*(\S*)\s*-\s*(\S*)\s*-\s*(.*)$`
