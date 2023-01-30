@@ -160,19 +160,26 @@ function getAccounts(servers, serverName) {
 
 async function openRedChest(promoItemsDoc) {
 	let redChest = promoItemsDoc.getElementsByClassName('chest_activate_red');
-	let cartId = ''; // найти cartId
 
 	for (let i = 0; i < redChest.length; i++) {
+		let dontTouch = false;
 		let chestHref = redChest[i];
+		let cartId = chestHref.slice(chestHref.indexOf('cart_id') + 8);
 		let chestInner = await getDOMdoc(chestHref);
 		let items = chestInner.getElementsByName('chest_items[]');
 		let res = '';
 
 		for (let j = 0; j < items.length; j++) {
 			res += '&chest_items%5B%5D=' + items[i].value;
+
+			if (items[i].type === 'radio') {
+				dontTouch = true;
+				break;
+			}
 		}
 
-		await fetch(`https://pw.mail.ru/promo_items.php?do=activate${res}&cart_id=${cartId}`);
+		if (!dontTouch)
+			await fetch(`https://pw.mail.ru/promo_items.php?do=activate${res}&cart_id=${cartId}`); //метод - пост.
 	}
 
 	// после этого запросить страницу подарков повторно
