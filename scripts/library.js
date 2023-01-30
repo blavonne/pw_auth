@@ -158,6 +158,26 @@ function getAccounts(servers, serverName) {
 	return null;
 }
 
+async function openRedChest(promoItemsDoc) {
+	let redChest = promoItemsDoc.getElementsByClassName('chest_activate_red');
+	let cartId = ''; // найти cartId
+
+	for (let i = 0; i < redChest.length; i++) {
+		let chestHref = redChest[i];
+		let chestInner = await getDOMdoc(chestHref);
+		let items = chestInner.getElementsByName('chest_items[]');
+		let res = '';
+
+		for (let j = 0; j < items.length; j++) {
+			res += '&chest_items%5B%5D=' + items[i].value;
+		}
+
+		await fetch(`https://pw.mail.ru/promo_items.php?do=activate${res}&cart_id=${cartId}`);
+	}
+
+	// после этого запросить страницу подарков повторно
+}
+
 async function getAccount() {
 	let parser = new DOMParser();
 	let doc = await fetchToStr('https://pw.mail.ru/usercp.php');
