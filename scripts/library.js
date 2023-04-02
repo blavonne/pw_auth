@@ -11,7 +11,7 @@ const allowed = {
 			'Stellacio',
 			'VoxPopuli',
 			'ТусяДжуся',
-			'CastleCat',
+			'ПусяДуся',
 		],
 	},
 	all: ['Гиперион'],
