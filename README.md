@@ -1,6 +1,6 @@
 # pwauth
 PW auth through python + selenium, promo activation and gifts sending via java script
-1. project directory should include file passwords.txt file formatted as:
+1. project directory should include file passwords file formatted as:
 
 * (line1) login
 * (line2) password
@@ -8,7 +8,7 @@ PW auth through python + selenium, promo activation and gifts sending via java s
 * (line4) password
 * etc.
 
-2. project directory should include file pins.txt file formatted as:
+2. project directory should include file pins file formatted as:
 
 * PROMO123
 * PROMO456

@@ -14,7 +14,7 @@ def wait_for_elem(driver, locator, query):
 
 def mail_auth(driver, login, password):
     driver.get(
-        "https://account.vkplay.ru/oauth2/?redirect_uri=https://pw.mail.ru/oauth2.php&continue&client_id=pw.mail.ru"
+        "https://account.vkplay.ru/oauth2/?redirect_uri=https://pwonline.ru/oauth2.php&continue&client_id=pw.mail.ru"
         "&response_type=code&show_auth_btn=mailru")
 
     mail_auth_btn = wait_for_elem(driver, By.CLASS_NAME, "ph-social-btn__text")
@@ -39,7 +39,7 @@ def mail_auth(driver, login, password):
     btn = wait_for_elem(driver, By.CLASS_NAME, 'ph-form__btn')
     btn.click()
 
-    driver.get('https://pw.mail.ru')
+    driver.get('https://pwonline.ru')
 
     return True
 
