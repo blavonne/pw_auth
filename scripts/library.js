@@ -47,7 +47,7 @@ async function fetchToStr(url) {
 }
 
 async function getPromoItemsDoc() {
-	let promoItemsDoc = await getDOMdoc('https://pw.mail.ru/promo_items.php');
+	let promoItemsDoc = await getDOMdoc('https://pwonline.ru/promo_items.php');
 
 	return promoItemsDoc;
 }
@@ -179,7 +179,7 @@ async function openRedChest(promoItemsDoc) {
 		}
 
 		if (!dontTouch)
-			await fetch(`https://pw.mail.ru/promo_items.php?do=activate${res}&cart_id=${cartId}`); //метод - пост.
+			await fetch(`https://pwonline.ru/promo_items.php?do=activate${res}&cart_id=${cartId}`); //метод - пост.
 	}
 
 	// после этого запросить страницу подарков повторно
@@ -187,7 +187,7 @@ async function openRedChest(promoItemsDoc) {
 
 async function getAccount() {
 	let parser = new DOMParser();
-	let doc = await fetchToStr('https://pw.mail.ru/usercp.php');
+	let doc = await fetchToStr('https://pwonline.ru/usercp.php');
 
 	doc = parser.parseFromString(doc, "text/html");
 
@@ -202,7 +202,7 @@ async function activatePins(pins = []) {
 
 	if (account)
 		pins.forEach(async (pin) => {
-			await fetch(`https://pw.mail.ru/pin.php?do=activate&pin=${pin}&game_account=${account}`);
+			await fetch(`https://pwonline.ru/pin.php?do=activate&pin=${pin}&game_account=${account}`);
 		})
 }
 
@@ -228,7 +228,7 @@ async function sendGifts() {
 		res += '&cart_items%5B%5D=' + items[i].value;
 	}
 
-	await fetch(`https://pw.mail.ru/promo_items.php?do=process${res}&acc_info=${acc}`);
+	await fetch(`https://pwonline.ru/promo_items.php?do=process${res}&acc_info=${acc}`);
 
 	return 'Подарки переданы';
 }
